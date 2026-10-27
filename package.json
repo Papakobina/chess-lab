@@ -1,0 +1,26 @@
+{
+  "name": "chess-lab",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "engine:download": "node scripts/download-engine.mjs"
+  },
+  "dependencies": {
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "react-chessboard": "5.8.4",
+    "chess.js": "1.4.0",
+    "idb": "8.0.3",
+    "lucide-react": "0.468.0"
+  },
+  "devDependencies": {
+    "@types/react": "19.1.0",
+    "@types/react-dom": "19.1.1",
+    "typescript": "5.8.3",
+    "vite": "6.1.0"
+  }
+}

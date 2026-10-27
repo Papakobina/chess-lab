@@ -1,0 +1,8 @@
+node_modules/
+dist/
+*.tsbuildinfo
+.env*
+public/engine/*.wasm
+public/engine/stockfish*.js
+public/engine/COPYING
+
