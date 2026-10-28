@@ -7,7 +7,10 @@
     "dev": "vite --host 127.0.0.1",
     "build": "tsc -b && vite build",
     "preview": "vite preview --host 127.0.0.1",
-    "engine:download": "node scripts/download-engine.mjs"
+    "engine:download": "node scripts/download-engine.mjs",
+    "openings:download": "node scripts/download-openings.mjs",
+    "predev": "node scripts/download-openings.mjs",
+    "prebuild": "node scripts/download-openings.mjs"
   },
   "dependencies": {
     "react": "19.1.0",

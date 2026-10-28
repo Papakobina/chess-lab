@@ -90,3 +90,21 @@ The repository is private. An app-wide distribution license has not been selecte
 Click Explore on a reviewed move, or make a move directly on the Review board. The variation panel analyzes the current position automatically and shows the best next move for the side to play. Play move follows one engine move; clicking a continuation move plays through that point. Step back lets you try another move, and Back to game returns to the original game.
 
 Each position change cancels the previous search. Results are keyed to the variation PGN, so a stale result cannot appear against a newer position. Checkmate and draw positions stop engine analysis and show the outcome. Variations are temporary and do not overwrite the saved game.
+
+## Opening library and recognition
+
+The Openings tab searches 3,865 named lines from the CC0 Lichess opening-name dataset. Search by name, ECO code, or move text, filter ECO volumes, select a reference line, and replay it move by move. Common opening families have short study prompts; each step has a factual description of the move. These are learning aids, not a complete annotated opening course.
+
+Explore this position with Stockfish opens the currently displayed position in Review with live variation analysis. Studies are saved separately from the game you were viewing.
+
+Play and Review display the most recent named position reached. Detection matches positions without FEN move counters, includes side to move, castling rights and legal en-passant rights, and prefers the exact move sequence when multiple names share a position. It handles transpositions and retains the last known opening after the game leaves the named lines.
+
+- Source: https://github.com/lichess-org/chess-openings
+- Pinned revision: f06a50d5c7c140e50b068049fa31d289e2c3d347
+- License: CC0-1.0
+- Regenerate: `npm run openings:download -- --force`
+- `npm run dev` and `npm run build` prepare this data automatically if missing; generated `public/openings.json` is excluded from Git.
+- `src/openings.ts` implements loading, recognition, and move descriptions; `src/OpeningsPage.tsx` contains the library; `src/OpeningBadge.tsx` labels game positions.
+
+Names and lines are reference data and are not engine evaluations or win-rate statistics.
+

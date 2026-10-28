@@ -6,3 +6,5 @@ public/engine/*.wasm
 public/engine/stockfish*.js
 public/engine/COPYING
 
+
+public/openings.json

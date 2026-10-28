@@ -54,7 +54,11 @@ import { deleteGame, listGames, saveGame, type SavedGame } from "./storage";
 import { useVariationAnalysis } from "./useVariationAnalysis";
 import { VariationPanel } from "./VariationPanel";
 
-type View = "review" | "play" | "library";
+import { OpeningsPage } from "./OpeningsPage";
+import { OpeningBadge } from "./OpeningBadge";
+import { useOpenings } from "./openings";
+
+type View = "review" | "play" | "library" | "openings";
 type Modal = "import" | "new" | "help" | "resign" | null;
 const grades: Grade[] = ["Best", "Good", "Inaccuracy", "Mistake", "Blunder"];
 const symbols: Record<Grade, string> = {
@@ -269,6 +273,8 @@ function EvaluationChart({
 }
 
 export default function App() {
+  const { data: openingData, error: openingError } = useOpenings();
+  const [openingQuery, setOpeningQuery] = useState("");
   const [view, setView] = useState<View>("review"),
     [record, setRecord] = useState<SavedGame>(initial),
     [ply, setPly] = useState(10);
@@ -411,6 +417,7 @@ export default function App() {
         promotion ||
         deleteId ||
         view === "library" ||
+        view === "openings" ||
         /INPUT|TEXTAREA|SELECT/.test((e.target as HTMLElement).tagName)
       )
         return;
@@ -786,6 +793,28 @@ export default function App() {
     setBranch({ ...branch, pgn: g.pgn() });
     setSelection(undefined);
   }
+  function exploreOpening(pgn: string, name: string) {
+    stopAll();
+    persist();
+    const g = new Chess();
+    g.loadPgn(pgn);
+    g.setHeader("White", "White");
+    g.setHeader("Black", "Black");
+    g.setHeader("Event", name);
+    setRecord({
+      id: crypto.randomUUID(),
+      pgn: g.pgn(),
+      title: "Study · " + name,
+      source: "import",
+      updatedAt: Date.now(),
+      reviews: [],
+    });
+    setPly(g.history().length);
+    setView("review");
+    setBranch({ pgn: g.pgn(), basePly: g.history().length });
+    setSelection(undefined);
+    setNotice("");
+  }
   function saveCurrent() {
     const saved = {
       ...record,
@@ -943,6 +972,7 @@ export default function App() {
               ["play", "Play Stockfish", Swords],
               ["review", "Game review", BookOpen],
               ["library", "Saved games", FolderOpen],
+              ["openings", "Openings", Search],
             ] as const
           ).map(([key, label, Icon]) => (
             <button
@@ -997,7 +1027,9 @@ export default function App() {
                 ? "Game review"
                 : view === "play"
                   ? "Play Stockfish"
-                  : "Saved games"}
+                  : view === "openings"
+                    ? "Openings"
+                    : "Saved games"}
             </strong>
           </div>
           <div className="topbar-right">
@@ -1016,24 +1048,31 @@ export default function App() {
                   ? "EVERY MOVE HAS A STORY"
                   : view === "play"
                     ? "YOUR NEXT CHALLENGE"
-                    : "YOUR PERSONAL COLLECTION"}
+                    : view === "openings"
+                      ? "EXPLORE THE FIRST MOVES"
+                      : "YOUR PERSONAL COLLECTION"}
               </div>
               <h1>
                 {view === "review"
                   ? "Find your next better move."
                   : view === "play"
                     ? "Take a seat. Make a move."
-                    : "Every game, a little progress."}
+                    : view === "openings"
+                      ? "Every opening starts a story."
+                      : "Every game, a little progress."}
               </h1>
               <p>
                 {view === "review"
                   ? "Explore your games, spot opportunities, and see what comes next."
                   : view === "play"
                     ? "A patient practice partner. A fresh position to explore."
-                    : "Pick up where you left off, or revisit what you learned."}
+                    : view === "openings"
+                      ? "Find a line, understand its moves, and explore what comes next."
+                      : "Pick up where you left off, or revisit what you learned."}
               </p>
             </div>
             <button
+              hidden={view === "openings"}
               className="button primary heading-action"
               onClick={() => {
                 setNotice("");
@@ -1055,7 +1094,15 @@ export default function App() {
               </IconButton>
             </div>
           )}
-          {view === "library" ? (
+          {view === "openings" ? (
+            <OpeningsPage
+              data={openingData}
+              error={openingError}
+              query={openingQuery}
+              setQuery={setOpeningQuery}
+              explore={exploreOpening}
+            />
+          ) : view === "library" ? (
             <div className="library">
               <div className="library-toolbar">
                 <label className="search-box">
@@ -1499,6 +1546,15 @@ export default function App() {
                       />
                     </div>
                   )}
+                  <OpeningBadge
+                    game={boardGame}
+                    data={openingData}
+                    error={openingError}
+                    browse={(name) => {
+                      setOpeningQuery(name.split(":")[0]);
+                      switchView("openings");
+                    }}
+                  />
                   <div className="moves-heading">
                     <span>MOVES</span>
                     <span>

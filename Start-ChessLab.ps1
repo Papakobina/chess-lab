@@ -13,6 +13,8 @@ if (-not (Test-Path -LiteralPath 'public/engine/stockfish-19-lite-single.wasm'))
     & $chessNode scripts/download-engine.mjs
     if ($LASTEXITCODE -ne 0) { throw 'Engine download failed.' }
 }
+& $chessNode scripts/download-openings.mjs
+if ($LASTEXITCODE -ne 0) { throw 'Opening database setup failed.' }
 Write-Host 'Chess Lab: http://127.0.0.1:5173 — press Ctrl+C to stop.'
 & $chessNode node_modules/vite/bin/vite.js
 
