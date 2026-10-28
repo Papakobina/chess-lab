@@ -19,7 +19,7 @@ The server uses a fixed port. Use the same URL and browser profile each time: In
 ## Features
 
 - **Play**: White, Black, or random side; four skill presets; untimed or 3/10/30-minute practice clocks; hints, takebacks, resignation, and post-game review.
-- **Review**: paste a numbered move list, paste/upload one PGN game, step through the board, compare played and preferred moves, view an evaluation graph, and explore engine variations or your own moves.
+- **Review**: paste a numbered move list, paste/upload one PGN game, step through the board, compare played and preferred moves, view an evaluation graph, and explore engine variations or your own moves with fresh analysis after every move.
 - **Library**: automatic saves, reopen/resume games, PGN export, JSON backup, restore, and deletion.
 - Responsive desktop/mobile interface, keyboard replay controls, promotion selection, and board arrows.
 
@@ -84,3 +84,9 @@ The app downloads the **Stockfish 19.0.1 lite single-threaded** JavaScript/WASM 
 - React, react-chessboard, idb, Vite, and Lucide use permissive licenses; chess.js uses BSD-2-Clause. Their package license files accompany installations.
 
 The repository is private. An app-wide distribution license has not been selected.
+
+## Live variation exploration
+
+Click Explore on a reviewed move, or make a move directly on the Review board. The variation panel analyzes the current position automatically and shows the best next move for the side to play. Play move follows one engine move; clicking a continuation move plays through that point. Step back lets you try another move, and Back to game returns to the original game.
+
+Each position change cancels the previous search. Results are keyed to the variation PGN, so a stale result cannot appear against a newer position. Checkmate and draw positions stop engine analysis and show the outcome. Variations are temporary and do not overwrite the saved game.

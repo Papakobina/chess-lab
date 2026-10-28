@@ -51,6 +51,9 @@ import { search, scoreNumber, scoreText, type Evaluation } from "./engine";
 import { reviewMove, type Grade, type MoveReview } from "./review";
 import { deleteGame, listGames, saveGame, type SavedGame } from "./storage";
 
+import { useVariationAnalysis } from "./useVariationAnalysis";
+import { VariationPanel } from "./VariationPanel";
+
 type View = "review" | "play" | "library";
 type Modal = "import" | "new" | "help" | "resign" | null;
 const grades: Grade[] = ["Best", "Good", "Inaccuracy", "Mistake", "Blunder"];
@@ -317,8 +320,12 @@ export default function App() {
     current = timeline[ply] || timeline[0],
     header = game.getHeaders();
   const activePlay = view === "play" && record.active && !record.endReason;
+  const variation = useVariationAnalysis(
+    view === "review" ? branch?.pgn : undefined,
+    analysisTime,
+  );
   const shownScore = branch
-    ? undefined
+    ? variation.evaluation?.score
     : ply === 0
       ? record.reviews.find((r) => r.ply === 1)?.best.score
       : currentReview?.actual.score;
@@ -757,6 +764,28 @@ export default function App() {
     setBranch({ pgn: g.pgn(), basePly: ply - 1 });
     setSelection(undefined);
   }
+  function playVariationLine(index: number) {
+    if (!branch || !variation.evaluation) return;
+    const g = new Chess();
+    g.loadPgn(branch.pgn);
+    for (const move of variation.evaluation.pv.slice(0, index + 1)) {
+      try {
+        playUci(g, move);
+      } catch {
+        break;
+      }
+    }
+    setBranch({ ...branch, pgn: g.pgn() });
+    setSelection(undefined);
+  }
+  function undoVariation() {
+    if (!branch) return;
+    const g = new Chess();
+    g.loadPgn(branch.pgn);
+    if (g.history().length > branch.basePly) g.undo();
+    setBranch({ ...branch, pgn: g.pgn() });
+    setSelection(undefined);
+  }
   function saveCurrent() {
     const saved = {
       ...record,
@@ -832,8 +861,14 @@ export default function App() {
           color: "#6f963be0",
         },
       ]
-    : branch && last
-      ? [{ startSquare: last.from, endSquare: last.to, color: "#6f963be0" }]
+    : branch && variation.evaluation
+      ? [
+          {
+            startSquare: variation.evaluation.bestMove.slice(0, 2),
+            endSquare: variation.evaluation.bestMove.slice(2, 4),
+            color: "#6f963be0",
+          },
+        ]
       : [];
   const playerRow = (color: "w" | "b") => {
     const name =
@@ -1525,7 +1560,23 @@ export default function App() {
                   </div>
                   {view === "review" && (
                     <div className="move-insight">
-                      {currentReview ? (
+                      {branch ? (
+                        <VariationPanel
+                          game={boardGame}
+                          basePly={branch.basePly}
+                          evaluation={variation.evaluation}
+                          thinking={variation.thinking}
+                          error={variation.error}
+                          terminal={variation.terminal}
+                          playLine={playVariationLine}
+                          undo={undoVariation}
+                          retry={variation.retry}
+                          back={() => {
+                            setBranch(undefined);
+                            setSelection(undefined);
+                          }}
+                        />
+                      ) : currentReview ? (
                         <>
                           <div className="insight-title">
                             <span
