@@ -6,6 +6,7 @@ import {
   LoaderCircle,
   RotateCcw,
 } from "lucide-react";
+import { moveRoute } from "./MoveComparison";
 import { lineSan } from "./chess";
 import { scoreText, type Evaluation } from "./engine";
 
@@ -78,15 +79,18 @@ export function VariationPanel({
       {terminal && <p>{terminal}. Step back to try another move.</p>}
       {evaluation && (
         <>
-          <div className="best-move">
+          <div className="best-move live-best-move">
             <div>
-              <span>BEST NEXT MOVE · DEPTH {evaluation.depth}</span>
+              <span>ENGINE’S BEST NEXT MOVE · DEPTH {evaluation.depth}</span>
               <strong>
                 {lineSan(game.fen(), [evaluation.bestMove])[0]}{" "}
                 <small>{scoreText(evaluation.score)}</small>
               </strong>
             </div>
-            <button className="text-button" onClick={() => playLine(0)}>
+            <div className="live-route">
+              {moveRoute(game.fen(), evaluation.bestMove)}
+            </div>
+            <button className="button primary" onClick={() => playLine(0)}>
               Play move <ArrowRight size={15} />
             </button>
           </div>

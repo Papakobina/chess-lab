@@ -1989,3 +1989,254 @@ textarea::placeholder {
   overflow-wrap: anywhere;
 }
 
+.move-comparison-section {
+  margin: 20px 0 14px;
+}
+.comparison-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.comparison-heading > strong {
+  font-size: 12px;
+  color: #435238;
+}
+.comparison-heading > span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  color: #58803b;
+}
+.move-comparison {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: 10px;
+}
+.compare-card {
+  min-width: 0;
+  border: 2px solid;
+  border-radius: 9px;
+  padding: 14px 12px 11px;
+}
+.compare-card.played {
+  background: #fff7e9;
+  border-color: #ecd4ad;
+  color: #8b5e29;
+}
+.compare-card.recommended {
+  background: #edf5e5;
+  border-color: #bfd4a5;
+  color: #527436;
+}
+.compare-card.previewing {
+  box-shadow: 0 0 0 3px #334b1715;
+}
+.compare-card.played.previewing {
+  border-color: #c58b3a;
+}
+.compare-card.recommended.previewing {
+  border-color: #6b9a45;
+}
+.compare-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.7px;
+  white-space: nowrap;
+}
+.compare-notation {
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: 32px;
+  line-height: 1.35;
+  font-weight: 800;
+  letter-spacing: -0.7px;
+  margin: 10px 0 4px;
+  overflow-wrap: anywhere;
+}
+.compare-route {
+  font-size: 11px;
+  font-weight: 550;
+  line-height: 1.65;
+}
+.compare-score {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px;
+  border-top: 1px solid #8d9d732d;
+  margin-top: 12px;
+  padding-top: 9px;
+  font-size: 8px;
+}
+.compare-score strong {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+}
+.compare-show {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: 100%;
+  min-height: 33px;
+  margin-top: 11px;
+  border: 1px solid #adac8c55;
+  border-radius: 5px;
+  background: #ffffffbd;
+  color: inherit;
+  font-size: 10px;
+  font-weight: 650;
+  padding: 7px 3px;
+}
+.compare-show:hover {
+  background: #fff;
+}
+.compare-explore {
+  width: 100%;
+  font-size: 11px;
+  margin-top: 11px;
+  min-height: 40px;
+}
+.move-insight .comparison-key {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  flex-wrap: wrap;
+  font-size: 8px;
+  line-height: 1.65;
+  margin: 11px 0 0;
+  color: #829173;
+}
+.comparison-key > span:last-child {
+  flex-basis: 100%;
+}
+.played-key,
+.best-key {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #c78732;
+  display: inline-block;
+}
+.best-key {
+  background: #548d35;
+  margin-left: 8px;
+}
+.comparison-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 12px;
+  margin: 10px 0 5px 24px;
+  border: 1px solid #d2dfc0;
+  border-radius: 6px;
+  background: #edf5e5;
+  color: #55743a;
+  font-size: 11px;
+  line-height: 1.6;
+}
+.comparison-banner.played {
+  background: #fff7e9;
+  border-color: #ecd4ad;
+  color: #8b5e29;
+}
+.comparison-banner button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 9px;
+  text-align: right;
+}
+.live-best-move {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 4px 12px;
+  border: 2px solid #bfd4a5;
+  background: #edf5e5;
+  padding: 15px;
+}
+.live-best-move > div:first-child {
+  grid-column: 1;
+}
+.live-best-move > div:first-child > span {
+  font-size: 9px;
+  font-weight: 650;
+  letter-spacing: 0.5px;
+  color: #658349;
+}
+.live-best-move strong {
+  display: block;
+  font-family: Manrope, system-ui, sans-serif;
+  font-size: 30px;
+  font-weight: 800;
+  color: #47682d;
+}
+.live-best-move small {
+  font-size: 13px;
+  color: #719152;
+}
+.live-best-move .live-route {
+  grid-column: 1;
+  font-size: 11px;
+  color: #67834d;
+}
+.live-best-move > button {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  padding: 10px 12px;
+}
+.insight-title > div > strong {
+  font-size: 13px;
+}
+@media (max-width: 1050px) and (min-width: 701px) {
+  .compare-card {
+    padding: 12px 8px 9px;
+  }
+  .compare-label {
+    font-size: 8px;
+    gap: 4px;
+    letter-spacing: 0.3px;
+  }
+  .compare-notation {
+    font-size: 28px;
+  }
+  .compare-route {
+    font-size: 10px;
+  }
+  .compare-show {
+    font-size: 9px;
+    gap: 4px;
+  }
+  .move-comparison {
+    gap: 7px;
+  }
+}
+@media (max-width: 700px) {
+  .compare-notation {
+    font-size: 34px;
+  }
+  .compare-card {
+    padding: 15px 12px 12px;
+  }
+  .compare-label {
+    font-size: 9px;
+  }
+  .compare-route {
+    font-size: 11px;
+  }
+  .comparison-banner {
+    flex-wrap: wrap;
+  }
+  .comparison-banner button {
+    margin-left: auto;
+  }
+}

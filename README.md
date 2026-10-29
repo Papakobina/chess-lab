@@ -108,3 +108,7 @@ Play and Review display the most recent named position reached. Detection matche
 
 Names and lines are reference data and are not engine evaluations or win-rate statistics.
 
+
+## Comparing moves visually
+
+Reviewed moves show two large cards: Your move (amber) and Engine’s best (green). Each includes standard move notation, the piece and source/destination squares, and a score labeled from White’s perspective. Show your move / Show best move previews the pre-move board with the corresponding arrow; Back to game position restores normal replay. Previewing does not modify the game. Play best move & explore enters a live variation. Live exploration also uses a larger best-move display and square coordinates.

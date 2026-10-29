@@ -54,6 +54,7 @@ import { deleteGame, listGames, saveGame, type SavedGame } from "./storage";
 import { useVariationAnalysis } from "./useVariationAnalysis";
 import { VariationPanel } from "./VariationPanel";
 
+import { MoveComparison } from "./MoveComparison";
 import { OpeningsPage } from "./OpeningsPage";
 import { OpeningBadge } from "./OpeningBadge";
 import { useOpenings } from "./openings";
@@ -289,6 +290,8 @@ export default function App() {
   const [progress, setProgress] = useState(0),
     [analysisTime, setAnalysisTime] = useState(500),
     [hint, setHint] = useState<Evaluation>();
+  const [comparisonMove, setComparisonMove] = useState<"played" | "best">();
+  useEffect(() => setComparisonMove(undefined), [ply, record.id, view]);
   const [branch, setBranch] = useState<{ pgn: string; basePly: number }>(),
     [selection, setSelection] = useState<string>();
   const [promotion, setPromotion] = useState<{ from: string; to: string }>(),
@@ -319,8 +322,13 @@ export default function App() {
       b.loadPgn(branch.pgn);
       return b;
     }
-    return atPly(record.pgn, Math.min(ply, total));
-  }, [record.pgn, ply, total, branch]);
+    return atPly(
+      record.pgn,
+      comparisonMove && view === "review"
+        ? Math.max(0, ply - 1)
+        : Math.min(ply, total),
+    );
+  }, [record.pgn, ply, total, branch, comparisonMove, view]);
   const currentReview = record.reviews.find((r) => r.ply === ply),
     before = timeline[Math.max(0, ply - 1)],
     current = timeline[ply] || timeline[0],
@@ -332,9 +340,11 @@ export default function App() {
   );
   const shownScore = branch
     ? variation.evaluation?.score
-    : ply === 0
-      ? record.reviews.find((r) => r.ply === 1)?.best.score
-      : currentReview?.actual.score;
+    : comparisonMove === "best" && currentReview
+      ? currentReview.best.score
+      : ply === 0
+        ? record.reviews.find((r) => r.ply === 1)?.best.score
+        : currentReview?.actual.score;
   const counts = grades.map(
     (grade) => record.reviews.filter((r) => r.grade === grade).length,
   );
@@ -343,6 +353,7 @@ export default function App() {
     setNoticeIsError(error);
   }
   function stopAll() {
+    setComparisonMove(undefined);
     reviewAbort.current?.abort();
     playAbort.current?.abort();
     hintAbort.current?.abort();
@@ -351,6 +362,7 @@ export default function App() {
     setHint(undefined);
   }
   function navigate(n: number) {
+    setComparisonMove(undefined);
     setPly(Math.max(0, Math.min(total, n)));
     setSelection(undefined);
     setBranch(undefined);
@@ -603,6 +615,7 @@ export default function App() {
     setEngineFailed(false);
   }
   function tryMove(from: string, to: string, promote?: string): boolean {
+    if (comparisonMove && !branch) return false;
     if (
       view === "play" &&
       (!activePlay ||
@@ -648,6 +661,7 @@ export default function App() {
     return true;
   }
   function clickSquare(square: string) {
+    if (comparisonMove && !branch) return;
     if (selection && tryMove(selection, square)) return;
     const piece = boardGame.get(square as Square);
     setSelection(piece?.color === boardGame.turn() ? square : undefined);
@@ -759,6 +773,7 @@ export default function App() {
     }
   }
   function followLine(index: number) {
+    setComparisonMove(undefined);
     if (!currentReview) return;
     const g = atPly(record.pgn, ply - 1);
     for (const move of currentReview.best.pv.slice(0, index + 1)) {
@@ -882,23 +897,42 @@ export default function App() {
       for (const p of row)
         if (p?.type === "k" && p.color === boardGame.turn())
           squareStyles[p.square] = { backgroundColor: "#d99181" };
-  const arrows = hint
+  const previewMove =
+    comparisonMove && !branch && currentReview
+      ? comparisonMove === "played"
+        ? currentReview.played
+        : currentReview.best.bestMove
+      : undefined;
+  if (previewMove) {
+    const background = comparisonMove === "played" ? "#e8c98d" : "#b5d59a";
+    squareStyles[previewMove.slice(0, 2)] = { backgroundColor: background };
+    squareStyles[previewMove.slice(2, 4)] = { backgroundColor: background };
+  }
+  const arrows = previewMove
     ? [
         {
-          startSquare: hint.bestMove.slice(0, 2),
-          endSquare: hint.bestMove.slice(2, 4),
-          color: "#6f963be0",
+          startSquare: previewMove.slice(0, 2),
+          endSquare: previewMove.slice(2, 4),
+          color: comparisonMove === "played" ? "#c78732ef" : "#548d35ef",
         },
       ]
-    : branch && variation.evaluation
+    : hint
       ? [
           {
-            startSquare: variation.evaluation.bestMove.slice(0, 2),
-            endSquare: variation.evaluation.bestMove.slice(2, 4),
+            startSquare: hint.bestMove.slice(0, 2),
+            endSquare: hint.bestMove.slice(2, 4),
             color: "#6f963be0",
           },
         ]
-      : [];
+      : branch && variation.evaluation
+        ? [
+            {
+              startSquare: variation.evaluation.bestMove.slice(0, 2),
+              endSquare: variation.evaluation.bestMove.slice(2, 4),
+              color: "#6f963be0",
+            },
+          ]
+        : [];
   const playerRow = (color: "w" | "b") => {
     const name =
         header[color === "w" ? "White" : "Black"] ||
@@ -1265,7 +1299,7 @@ export default function App() {
                           allowDrawingArrows: true,
                           animationDurationInMs: 180,
                           allowDragging:
-                            view === "review" ||
+                            (view === "review" && !comparisonMove) ||
                             Boolean(
                               activePlay &&
                                 game.turn() === record.player &&
@@ -1341,7 +1375,24 @@ export default function App() {
                       <Save size={17} />
                     </IconButton>
                   </div>
-                  {branch ? (
+                  {previewMove ? (
+                    <div
+                      className={"comparison-banner " + comparisonMove}
+                      role="status"
+                    >
+                      <span>
+                        {comparisonMove === "played"
+                          ? "Your move"
+                          : "Engine’s best"}
+                        :{" "}
+                        <strong>{lineSan(before.fen, [previewMove])[0]}</strong>{" "}
+                        · {previewMove.slice(0, 2)} → {previewMove.slice(2, 4)}
+                      </span>
+                      <button onClick={() => setComparisonMove(undefined)}>
+                        Back to game position <X size={14} />
+                      </button>
+                    </div>
+                  ) : branch ? (
                     <div className="exploration-banner">
                       <FlaskConical size={17} />
                       <span>Exploring a variation</span>
@@ -1677,27 +1728,19 @@ export default function App() {
                                     (currentReview.loss / 100).toFixed(2) +
                                     " pawns."}
                           </p>
-                          <div className="best-move">
-                            <div>
-                              <span>ENGINE’S CHOICE</span>
-                              <strong>
-                                {
-                                  lineSan(before.fen, [
-                                    currentReview.best.bestMove,
-                                  ])[0]
-                                }{" "}
-                                <small>
-                                  {scoreText(currentReview.best.score)}
-                                </small>
-                              </strong>
-                            </div>
-                            <button
-                              className="text-button"
-                              onClick={() => followLine(0)}
-                            >
-                              Explore <ArrowRight size={15} />
-                            </button>
-                          </div>
+                          <MoveComparison
+                            fen={before.fen}
+                            san={current.san || ""}
+                            review={currentReview}
+                            preview={comparisonMove}
+                            show={(kind) => {
+                              setComparisonMove((current) =>
+                                current === kind ? undefined : kind,
+                              );
+                              setSelection(undefined);
+                            }}
+                            explore={() => followLine(0)}
+                          />
                           <div className="variation-line">
                             {lineSan(
                               before.fen,
