@@ -2240,3 +2240,349 @@ textarea::placeholder {
     margin-left: auto;
   }
 }
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 32px;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #f3f6ed;
+  color: #677b54;
+  font-size: 11px;
+  font-weight: 600;
+}
+.theme-toggle:hover {
+  background: #e7efda;
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  color: #e1e8db;
+  background: #151c17;
+  --ink: #e1e8db;
+  --muted: #a4b09c;
+  --line: #354031;
+  --green: #a1bd78;
+  --soft: #293524;
+}
+[data-theme="dark"] body,
+[data-theme="dark"] main {
+  background: #151c17;
+  color: #e1e8db;
+}
+[data-theme="dark"] .sidebar {
+  background: #111812;
+}
+[data-theme="dark"] .topbar {
+  background: #1a231b;
+}
+[data-theme="dark"] .review-panel,
+[data-theme="dark"] .summary-strip,
+[data-theme="dark"] .game-card,
+[data-theme="dark"] .opening-browser,
+[data-theme="dark"] .opening-study,
+[data-theme="dark"] .modal,
+[data-theme="dark"] .chart,
+[data-theme="dark"] .empty-library {
+  background: #1e2820;
+  border-color: #354031;
+}
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] .player-row strong,
+[data-theme="dark"] .insight-title strong,
+[data-theme="dark"] .comparison-heading > strong,
+[data-theme="dark"] .summary-intro strong {
+  color: #e3ebdc;
+}
+[data-theme="dark"] .page-heading p,
+[data-theme="dark"] .move-insight p,
+[data-theme="dark"] .modal-description,
+[data-theme="dark"] .help-content,
+[data-theme="dark"] .opening-study-title p,
+[data-theme="dark"] .play-status p,
+[data-theme="dark"] .empty-library p {
+  color: #a6b29d;
+}
+[data-theme="dark"] .eyebrow,
+[data-theme="dark"] .section-kicker,
+[data-theme="dark"] .chart-label,
+[data-theme="dark"] .breadcrumb,
+[data-theme="dark"] .engine-tag,
+[data-theme="dark"] .board-hint,
+[data-theme="dark"] .page-footnote,
+[data-theme="dark"] .page-footnote button,
+[data-theme="dark"] .field-help,
+[data-theme="dark"] .privacy-note,
+[data-theme="dark"] .chart-axis,
+[data-theme="dark"] .summary-intro > span:last-child,
+[data-theme="dark"] .summary-stat > span:last-child {
+  color: #a0af92;
+}
+[data-theme="dark"] .breadcrumb strong,
+[data-theme="dark"] .opening-results-header strong,
+[data-theme="dark"] .field-label,
+[data-theme="dark"] .help-content strong {
+  color: #c1d0b0;
+}
+[data-theme="dark"] .primary {
+  background: #7e9c55;
+  border-color: #7e9c55;
+  color: #101a0c;
+}
+[data-theme="dark"] .primary:hover:not(:disabled) {
+  background: #96b46e;
+  border-color: #96b46e;
+}
+[data-theme="dark"] .secondary,
+[data-theme="dark"] select,
+[data-theme="dark"] textarea,
+[data-theme="dark"] .search-box,
+[data-theme="dark"] .segmented,
+[data-theme="dark"] .promotion-options button,
+[data-theme="dark"] .theme-toggle {
+  background: #263322;
+  border-color: #46553b;
+  color: #cfddc0;
+}
+[data-theme="dark"] input {
+  color: #dbe6d1;
+}
+[data-theme="dark"] textarea::placeholder,
+[data-theme="dark"] input::placeholder {
+  color: #8e9f7e;
+}
+[data-theme="dark"] .secondary:hover:not(:disabled),
+[data-theme="dark"] .theme-toggle:hover,
+[data-theme="dark"] .icon-button:hover:not(:disabled) {
+  background: #35472c;
+}
+[data-theme="dark"] .icon-button {
+  color: #b3c79c;
+}
+[data-theme="dark"] .profile,
+[data-theme="dark"] .small-tag,
+[data-theme="dark"] .clock,
+[data-theme="dark"] .eval-pill,
+[data-theme="dark"] .grade-badge,
+[data-theme="dark"] .game-card-icon,
+[data-theme="dark"] .insight-spark {
+  background: #2d3c27;
+  color: #c4d5b1;
+  border-color: #415236;
+}
+[data-theme="dark"] .profile {
+  border-color: #273322;
+}
+[data-theme="dark"] .clock-active {
+  background: #526b37;
+  color: #e4efd8;
+}
+[data-theme="dark"] .white-avatar {
+  background: #dce5d2;
+  color: #34462a;
+  border-color: #c6d4b8;
+}
+[data-theme="dark"] .black-avatar {
+  background: #263522;
+  color: #e3ecd9;
+}
+[data-theme="dark"] .player-row span:not(.avatar span),
+[data-theme="dark"] .insight-title div > span,
+[data-theme="dark"] .moves-heading,
+[data-theme="dark"] .move-number,
+[data-theme="dark"] .versus,
+[data-theme="dark"] .game-card p {
+  color: #9cad8e;
+}
+[data-theme="dark"] .moves-heading,
+[data-theme="dark"] .panel-footer,
+[data-theme="dark"] .opening-badge,
+[data-theme="dark"] .branch-history,
+[data-theme="dark"] .best-move,
+[data-theme="dark"] .opening-step-note {
+  background: #222f20;
+  border-color: #3d4d34;
+}
+[data-theme="dark"] .move-row:nth-child(even),
+[data-theme="dark"] .opening-result:nth-child(even) {
+  background: #222d22;
+}
+[data-theme="dark"] .move-cell:hover,
+[data-theme="dark"] .opening-result:hover {
+  background: #31422a;
+}
+[data-theme="dark"] .move-cell.selected,
+[data-theme="dark"] .opening-result.selected,
+[data-theme="dark"] .opening-moves button.selected,
+[data-theme="dark"] .segmented button.chosen {
+  background: #405632;
+  border-color: #63804a;
+  color: #e2f0ce;
+}
+[data-theme="dark"] .opening-result {
+  color: #dae5d0;
+}
+[data-theme="dark"] .opening-result p,
+[data-theme="dark"] .opening-results-header > span,
+[data-theme="dark"] .opening-attribution,
+[data-theme="dark"] .opening-badge span,
+[data-theme="dark"] .panel-footer {
+  color: #9dad90;
+}
+[data-theme="dark"] .opening-badge strong,
+[data-theme="dark"] .opening-step-note strong,
+[data-theme="dark"] .opening-step-note p,
+[data-theme="dark"] .branch-history p,
+[data-theme="dark"] .branch-history > span,
+[data-theme="dark"] .best-move div > span,
+[data-theme="dark"] .best-move small {
+  color: #b7ce9d;
+}
+[data-theme="dark"] .opening-eco,
+[data-theme="dark"] .opening-quick-filters button,
+[data-theme="dark"] .opening-moves button,
+[data-theme="dark"] .variation-line button {
+  background: #2c3a27;
+  border-color: #425536;
+  color: #c0d3aa;
+}
+[data-theme="dark"] .opening-quick-filters button.chosen,
+[data-theme="dark"] .variation-line button:hover {
+  background: #465f33;
+  border-color: #6b8750;
+  color: #edf5e2;
+}
+[data-theme="dark"] a,
+[data-theme="dark"] .text-button,
+[data-theme="dark"] .opening-attribution a,
+[data-theme="dark"] .hint-result,
+[data-theme="dark"] .comparison-heading > span {
+  color: #b2ce8d;
+}
+[data-theme="dark"] .text-button:hover:not(:disabled) {
+  color: #d2eab2;
+}
+[data-theme="dark"] .notice {
+  background: #293b23;
+  border-color: #4d633c;
+  color: #d1e5b8;
+}
+[data-theme="dark"] .notice.error {
+  background: #412c25;
+  border-color: #82503d;
+  color: #f0bba1;
+}
+[data-theme="dark"] .form-error {
+  color: #f0ab96;
+}
+[data-theme="dark"] .best {
+  color: #b1d77c;
+}
+[data-theme="dark"] .good {
+  color: #8dcab1;
+}
+[data-theme="dark"] .inaccuracy {
+  color: #e2c16c;
+}
+[data-theme="dark"] .mistake {
+  color: #edaa65;
+}
+[data-theme="dark"] .blunder {
+  color: #ed9586;
+}
+[data-theme="dark"] .chart polygon {
+  fill: #30432a;
+}
+[data-theme="dark"] .chart polyline {
+  stroke: #a7c777;
+}
+[data-theme="dark"] .chart line {
+  stroke: #657a55;
+}
+[data-theme="dark"] .chart text {
+  fill: #a2b58f;
+}
+[data-theme="dark"] .keyboard-key {
+  border-color: #526446;
+  color: #b8cda1;
+}
+[data-theme="dark"] .playback > span,
+[data-theme="dark"] .playback > span span,
+[data-theme="dark"] .empty-moves,
+[data-theme="dark"] .empty-moves span {
+  color: #adbe9a;
+}
+[data-theme="dark"] .summary-stat:not(:disabled):hover {
+  background: #2b3a25;
+}
+[data-theme="dark"] .compare-card.played {
+  background: #3a2e1e;
+  border-color: #886836;
+  color: #f0c17a;
+}
+[data-theme="dark"] .compare-card.recommended {
+  background: #2a3b23;
+  border-color: #6f8d4d;
+  color: #d0e8ac;
+}
+[data-theme="dark"] .compare-card.played.previewing {
+  border-color: #e2b361;
+}
+[data-theme="dark"] .compare-card.recommended.previewing {
+  border-color: #aacc78;
+}
+[data-theme="dark"] .compare-show {
+  background: #10180d66;
+  border-color: #bbce9955;
+  color: inherit;
+}
+[data-theme="dark"] .compare-show:hover {
+  background: #10180dcc;
+}
+[data-theme="dark"] .move-insight .comparison-key {
+  color: #b7c5a6;
+}
+[data-theme="dark"] .comparison-banner,
+[data-theme="dark"] .live-best-move {
+  background: #2a3b23;
+  border-color: #6f8d4d;
+  color: #d0e8ac;
+}
+[data-theme="dark"] .comparison-banner.played {
+  background: #3a2e1e;
+  border-color: #886836;
+  color: #f0c17a;
+}
+[data-theme="dark"] .live-best-move strong,
+[data-theme="dark"] .live-best-move small,
+[data-theme="dark"] .live-best-move .live-route,
+[data-theme="dark"] .live-best-move > div:first-child > span {
+  color: #c9e5a3;
+}
+[data-theme="dark"] .exploration-banner,
+[data-theme="dark"] .exploration-banner button {
+  color: #b3cd91;
+}
+[data-theme="dark"] .modal-backdrop {
+  background: #060b08b8;
+}
+@media (max-width: 700px) {
+  .topbar-right {
+    gap: 8px;
+  }
+  .theme-toggle {
+    min-height: 29px;
+    padding: 5px 7px;
+    gap: 4px;
+    font-size: 10px;
+  }
+  .engine-tag {
+    font-size: 8px;
+    gap: 4px;
+  }
+}

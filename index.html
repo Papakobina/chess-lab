@@ -1,2 +1,31 @@
 <!doctype html>
-<html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><meta name="theme-color" content="#151917"/><meta name="description" content="Your personal chess workspace. Play Stockfish, explore your games, and find your next better move."/><title>Chess Lab — a little better, every game.</title></head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#151917" />
+    <meta
+      name="description"
+      content="Your personal chess workspace. Play Stockfish, explore your games, and find your next better move."
+    />
+    <title>Chess Lab — a little better, every game.</title>
+    <script>
+      // Apply the saved theme before the first paint.
+      try {
+        var savedTheme = localStorage.getItem("chess-lab-theme");
+        var pageTheme =
+          savedTheme === "dark" || savedTheme === "light"
+            ? savedTheme
+            : matchMedia("(prefers-color-scheme: dark)").matches
+              ? "dark"
+              : "light";
+        document.documentElement.dataset.theme = pageTheme;
+        document.documentElement.style.colorScheme = pageTheme;
+      } catch (_) {}
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

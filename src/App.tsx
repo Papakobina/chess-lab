@@ -24,6 +24,8 @@ import {
   FolderOpen,
   Lightbulb,
   LoaderCircle,
+  Moon,
+  Sun,
   Plus,
   RotateCcw,
   Save,
@@ -54,6 +56,7 @@ import { deleteGame, listGames, saveGame, type SavedGame } from "./storage";
 import { useVariationAnalysis } from "./useVariationAnalysis";
 import { VariationPanel } from "./VariationPanel";
 
+import { useTheme } from "./theme";
 import { MoveComparison } from "./MoveComparison";
 import { OpeningsPage } from "./OpeningsPage";
 import { OpeningBadge } from "./OpeningBadge";
@@ -274,6 +277,7 @@ function EvaluationChart({
 }
 
 export default function App() {
+  const { theme, toggleTheme } = useTheme();
   const { data: openingData, error: openingError } = useOpenings();
   const [openingQuery, setOpeningQuery] = useState("");
   const [view, setView] = useState<View>("review"),
@@ -1067,6 +1071,24 @@ export default function App() {
             </strong>
           </div>
           <div className="topbar-right">
+            <button
+              className="theme-toggle"
+              onClick={toggleTheme}
+              aria-label={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+              aria-pressed={theme === "dark"}
+              title={
+                theme === "dark"
+                  ? "Switch to light mode"
+                  : "Switch to dark mode"
+              }
+            >
+              {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+              <span>{theme === "dark" ? "Light" : "Dark"}</span>
+            </button>
             <span className="engine-tag">
               <span className="status-dot" />
               Stockfish 19
