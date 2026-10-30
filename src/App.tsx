@@ -89,6 +89,14 @@ const formatTime = (ms: number) => {
 const errorText = (e: unknown) =>
   e instanceof Error ? e.message : "Something went wrong. Please try again.";
 
+// A full review is embarrassingly parallel: every ply already has a complete
+// FEN/position in the imported PGN. Keep the pool deliberately small so the
+// UI stays responsive and each Stockfish instance still gets useful CPU time.
+const analysisWorkerCount = (jobs: number) => {
+  const logicalCores = navigator.hardwareConcurrency || 4;
+  return Math.min(jobs, 4, Math.max(2, Math.floor(logicalCores / 2)));
+};
+
 function IconButton({
   label,
   children,
@@ -743,27 +751,37 @@ export default function App() {
     setProgress(0);
     setNotice("");
     try {
-      for (let i = 0; i < targets.length; i++) {
-        if (controller.signal.aborted) break;
-        const p = targets[i],
-          old = latestRecord.current.reviews.find((r) => r.ply === p);
-        if (!old || old.ms < ms) {
-          const result = await reviewMove(source, p, ms, controller.signal);
-          if (controller.signal.aborted) break;
-          setRecord((r) =>
-            r.id === id
-              ? {
-                  ...r,
-                  reviews: [
-                    ...r.reviews.filter((v) => v.ply !== p),
-                    result,
-                  ].sort((a, b) => a.ply - b.ply),
-                }
-              : r,
-          );
+      let nextTarget = 0;
+      let completed = 0;
+      const runWorker = async () => {
+        while (!controller.signal.aborted) {
+          // JavaScript assigns this synchronously on the main thread, so each
+          // worker loop claims a different position without locks.
+          const targetIndex = nextTarget++;
+          if (targetIndex >= targets.length) return;
+          const p = targets[targetIndex];
+          const old = latestRecord.current.reviews.find((r) => r.ply === p);
+          if (!old || old.ms < ms) {
+            const result = await reviewMove(source, p, ms, controller.signal);
+            if (controller.signal.aborted) return;
+            setRecord((r) =>
+              r.id === id
+                ? {
+                    ...r,
+                    reviews: [
+                      ...r.reviews.filter((v) => v.ply !== p),
+                      result,
+                    ].sort((a, b) => a.ply - b.ply),
+                  }
+                : r,
+            );
+          }
+          completed += 1;
+          setProgress(completed);
         }
-        setProgress(i + 1);
-      }
+      };
+      const workerCount = analysisWorkerCount(targets.length);
+      await Promise.all(Array.from({ length: workerCount }, () => runWorker()));
       if (!controller.signal.aborted)
         announce(
           singlePly
@@ -771,6 +789,7 @@ export default function App() {
             : "Review complete. Select any move to explore it.",
         );
     } catch (e) {
+      controller.abort();
       if ((e as Error).name !== "AbortError") announce(errorText(e), true);
     } finally {
       if (reviewAbort.current === controller) setBusy(false);

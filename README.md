@@ -36,7 +36,7 @@ src/styles.css   Responsive visual design
 
 The board component draws pieces and reports interactions. **chess.js** validates and applies moves. **Stockfish** evaluates them. **IndexedDB**, via `idb`, persists records.
 
-Each engine search owns a worker. Cancellation terminates it, preventing a stale response from making a move in a newer game. A review runs sequentially and saves partial progress. Search commands contain the initial FEN and move history so repetition context is preserved.
+Each engine search owns a worker. Cancellation terminates it, preventing a stale response from making a move in a newer game. A full review uses a bounded pool of 2–4 workers, chosen from the browser's reported logical-core count, and saves partial results as positions finish. The main thread assigns each worker a different ply and restores results to move order. Search commands contain the initial FEN and move history so repetition context is preserved.
 
 For each played move, the app searches the original position for the preferred move, then searches that same position restricted to the played move. Both use the selected time budget. Scores are normalized to White's perspective. If the played move is already the engine choice, its result is reused.
 
