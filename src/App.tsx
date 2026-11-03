@@ -1647,6 +1647,23 @@ export default function App() {
                       switchView("openings");
                     }}
                   />
+                  {view === "review" && !branch && currentReview && (
+                    <div className="move-comparison-dock">
+                      <MoveComparison
+                        fen={before.fen}
+                        san={current.san || ""}
+                        review={currentReview}
+                        preview={comparisonMove}
+                        show={(kind) => {
+                          setComparisonMove((current) =>
+                            current === kind ? undefined : kind,
+                          );
+                          setSelection(undefined);
+                        }}
+                        explore={() => followLine(0)}
+                      />
+                    </div>
+                  )}
                   <div className="moves-heading">
                     <span>MOVES</span>
                     <span>
@@ -1769,19 +1786,6 @@ export default function App() {
                                     (currentReview.loss / 100).toFixed(2) +
                                     " pawns."}
                           </p>
-                          <MoveComparison
-                            fen={before.fen}
-                            san={current.san || ""}
-                            review={currentReview}
-                            preview={comparisonMove}
-                            show={(kind) => {
-                              setComparisonMove((current) =>
-                                current === kind ? undefined : kind,
-                              );
-                              setSelection(undefined);
-                            }}
-                            explore={() => followLine(0)}
-                          />
                           <div className="variation-line">
                             {lineSan(
                               before.fen,
