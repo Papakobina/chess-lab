@@ -20,6 +20,7 @@ The server uses a fixed port. Use the same URL and browser profile each time: In
 
 - **Play**: White, Black, or random side; four skill presets; untimed or 3/10/30-minute practice clocks; hints, takebacks, resignation, and post-game review.
 - **Review**: paste a numbered move list, paste/upload one PGN game, step through the board, compare played and preferred moves, view an evaluation graph, and explore engine variations or your own moves with fresh analysis after every move.
+- **Playground**: freely arrange pieces with drag-and-drop or a piece palette, choose the side to move, and ask Stockfish for the best move and continuation from that exact position.
 - **Library**: automatic saves, reopen/resume games, PGN export, JSON backup, restore, and deletion.
 - Responsive desktop/mobile interface, keyboard replay controls, promotion selection, and board arrows.
 

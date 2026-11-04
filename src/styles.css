@@ -621,6 +621,234 @@ select {
 .move-comparison-dock .move-comparison-section {
   margin: 0;
 }
+
+.playground-grid {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.1fr) minmax(330px, 0.9fr);
+  gap: 22px;
+  align-items: start;
+}
+.playground-board-card,
+.playground-panel {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  box-shadow: 0 3px 12px #35402003;
+}
+.playground-board-card {
+  padding: 20px;
+}
+.playground-board-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+.playground-board-topline strong {
+  display: block;
+  font-family: Manrope, sans-serif;
+  font-size: 17px;
+  margin-top: 5px;
+}
+.compact-button {
+  min-height: 34px;
+  padding: 7px 11px;
+}
+.playground-board {
+  width: min(100%, 660px);
+  margin: auto;
+  overflow: hidden;
+  border-radius: 7px;
+  box-shadow: 0 8px 25px #26321c16;
+}
+.playground-board-help {
+  color: #89927e;
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 14px 0 0;
+  text-align: center;
+}
+.playground-panel {
+  overflow: hidden;
+}
+.playground-section {
+  padding: 20px 22px;
+  border-bottom: 1px solid var(--line);
+}
+.piece-palette {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(34px, 1fr));
+  gap: 7px;
+  margin-top: 12px;
+}
+.piece-palette button {
+  display: grid;
+  place-items: center;
+  min-width: 0;
+  min-height: 43px;
+  border: 1px solid #dfe5d6;
+  border-radius: 6px;
+  background: #f7f9f3;
+  color: #26331f;
+  font-family: Georgia, serif;
+  font-size: 27px;
+}
+.piece-palette button:hover,
+.piece-palette button.active {
+  border-color: #8aaa63;
+  background: #eaf2df;
+  box-shadow: 0 0 0 2px #8aaa6326;
+}
+.piece-palette button.erase {
+  font-family: inherit;
+  color: #77846d;
+}
+.turn-picker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-top: 12px;
+  padding: 4px;
+  border-radius: 7px;
+  background: #f2f5ed;
+}
+.turn-picker button {
+  min-height: 35px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: #77856d;
+  font-size: 10px;
+  font-weight: 650;
+}
+.turn-picker button.active {
+  background: #fff;
+  color: #4f6a39;
+  box-shadow: 0 2px 7px #42542f16;
+}
+.playground-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 10px;
+}
+.playground-actions .button {
+  min-width: 0;
+  padding-inline: 8px;
+  font-size: 9px;
+}
+.playground-analysis {
+  padding: 22px;
+}
+.playground-analysis h2 {
+  font-family: Manrope, sans-serif;
+  font-size: 18px;
+  margin: 7px 0 6px;
+}
+.playground-analysis > div:first-child > p {
+  color: #89927e;
+  font-size: 10px;
+  line-height: 1.6;
+  margin: 0;
+}
+.playground-analyze {
+  width: 100%;
+  margin-top: 16px;
+}
+.playground-error {
+  margin-top: 12px;
+  padding: 10px;
+  border: 1px solid #e7b9b0;
+  border-radius: 6px;
+  background: #fff0ed;
+  color: #984f44;
+  font-size: 10px;
+  line-height: 1.5;
+}
+.playground-result {
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #cbdcb8;
+  border-radius: 8px;
+  background: #f2f7ec;
+}
+.playground-best {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #55753c;
+}
+.playground-best > div {
+  min-width: 0;
+}
+.playground-best span,
+.playground-line > span {
+  display: block;
+  color: #829173;
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 0.9px;
+}
+.playground-best strong {
+  display: block;
+  margin-top: 3px;
+  font-family: Manrope, sans-serif;
+  font-size: 25px;
+}
+.playground-best b {
+  margin-left: auto;
+  font-size: 13px;
+}
+.playground-line {
+  margin-top: 13px;
+  padding-top: 11px;
+  border-top: 1px solid #d8e3cc;
+}
+.playground-line > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 8px;
+}
+.playground-line > div span {
+  padding: 5px 7px;
+  border-radius: 4px;
+  background: #fff;
+  color: #536448;
+  font-size: 10px;
+  font-weight: 650;
+}
+.playground-result small {
+  display: block;
+  margin-top: 11px;
+  color: #87937d;
+  font-size: 8px;
+}
+
+@media (max-width: 980px) {
+  .playground-grid {
+    grid-template-columns: 1fr;
+  }
+  .playground-board-card,
+  .playground-panel {
+    width: 100%;
+  }
+}
+
+@media (max-width: 560px) {
+  .playground-board-card,
+  .playground-section,
+  .playground-analysis {
+    padding: 15px;
+  }
+  .piece-palette {
+    grid-template-columns: repeat(5, 1fr);
+  }
+  .playground-actions {
+    grid-template-columns: 1fr;
+  }
+}
 .move-row {
   display: grid;
   grid-template-columns: 29px 1fr 1fr;
@@ -2288,6 +2516,8 @@ textarea::placeholder {
   background: #1a231b;
 }
 [data-theme="dark"] .review-panel,
+[data-theme="dark"] .playground-board-card,
+[data-theme="dark"] .playground-panel,
 [data-theme="dark"] .summary-strip,
 [data-theme="dark"] .game-card,
 [data-theme="dark"] .opening-browser,
@@ -2304,6 +2534,8 @@ textarea::placeholder {
 [data-theme="dark"] .player-row strong,
 [data-theme="dark"] .insight-title strong,
 [data-theme="dark"] .comparison-heading > strong,
+[data-theme="dark"] .playground-board-topline strong,
+[data-theme="dark"] .playground-analysis h2,
 [data-theme="dark"] .summary-intro strong {
   color: #e3ebdc;
 }
@@ -2551,6 +2783,47 @@ textarea::placeholder {
 }
 [data-theme="dark"] .compare-show:hover {
   background: #10180dcc;
+}
+[data-theme="dark"] .piece-palette button {
+  border-color: #3b4939;
+  background: #263229;
+  color: #e7ede1;
+}
+[data-theme="dark"] .piece-palette button:hover,
+[data-theme="dark"] .piece-palette button.active {
+  border-color: #89ad65;
+  background: #34462f;
+}
+[data-theme="dark"] .piece-palette button.erase,
+[data-theme="dark"] .playground-board-help,
+[data-theme="dark"] .playground-analysis > div:first-child > p {
+  color: #aab5a4;
+}
+[data-theme="dark"] .turn-picker {
+  background: #18221b;
+}
+[data-theme="dark"] .turn-picker button {
+  color: #9eaa98;
+}
+[data-theme="dark"] .turn-picker button.active {
+  background: #35452f;
+  color: #dce9d3;
+}
+[data-theme="dark"] .playground-result {
+  border-color: #48633d;
+  background: #263924;
+}
+[data-theme="dark"] .playground-line {
+  border-color: #40543a;
+}
+[data-theme="dark"] .playground-line > div span {
+  background: #1d2a20;
+  color: #d7e2d1;
+}
+[data-theme="dark"] .playground-error {
+  border-color: #744a42;
+  background: #3a2926;
+  color: #efb8ae;
 }
 [data-theme="dark"] .move-insight .comparison-key,
 [data-theme="dark"] .move-comparison-dock .comparison-key {

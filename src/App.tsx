@@ -61,8 +61,9 @@ import { MoveComparison } from "./MoveComparison";
 import { OpeningsPage } from "./OpeningsPage";
 import { OpeningBadge } from "./OpeningBadge";
 import { useOpenings } from "./openings";
+import { PlaygroundPage } from "./PlaygroundPage";
 
-type View = "review" | "play" | "library" | "openings";
+type View = "review" | "play" | "playground" | "library" | "openings";
 type Modal = "import" | "new" | "help" | "resign" | null;
 const grades: Grade[] = ["Best", "Good", "Inaccuracy", "Mistake", "Blunder"];
 const symbols: Record<Grade, string> = {
@@ -1028,6 +1029,7 @@ export default function App() {
             [
               ["play", "Play Stockfish", Swords],
               ["review", "Game review", BookOpen],
+              ["playground", "Playground", FlaskConical],
               ["library", "Saved games", FolderOpen],
               ["openings", "Openings", Search],
             ] as const
@@ -1084,9 +1086,11 @@ export default function App() {
                 ? "Game review"
                 : view === "play"
                   ? "Play Stockfish"
-                  : view === "openings"
-                    ? "Openings"
-                    : "Saved games"}
+                  : view === "playground"
+                    ? "Playground"
+                    : view === "openings"
+                      ? "Openings"
+                      : "Saved games"}
             </strong>
           </div>
           <div className="topbar-right">
@@ -1123,31 +1127,37 @@ export default function App() {
                   ? "EVERY MOVE HAS A STORY"
                   : view === "play"
                     ? "YOUR NEXT CHALLENGE"
-                    : view === "openings"
-                      ? "EXPLORE THE FIRST MOVES"
-                      : "YOUR PERSONAL COLLECTION"}
+                    : view === "playground"
+                      ? "BUILD A POSITION"
+                      : view === "openings"
+                        ? "EXPLORE THE FIRST MOVES"
+                        : "YOUR PERSONAL COLLECTION"}
               </div>
               <h1>
                 {view === "review"
                   ? "Find your next better move."
                   : view === "play"
                     ? "Take a seat. Make a move."
-                    : view === "openings"
-                      ? "Every opening starts a story."
-                      : "Every game, a little progress."}
+                    : view === "playground"
+                      ? "Set the board. Ask Stockfish."
+                      : view === "openings"
+                        ? "Every opening starts a story."
+                        : "Every game, a little progress."}
               </h1>
               <p>
                 {view === "review"
                   ? "Explore your games, spot opportunities, and see what comes next."
                   : view === "play"
                     ? "A patient practice partner. A fresh position to explore."
-                    : view === "openings"
-                      ? "Find a line, understand its moves, and explore what comes next."
-                      : "Pick up where you left off, or revisit what you learned."}
+                    : view === "playground"
+                      ? "Arrange any position and see the engine’s recommendation."
+                      : view === "openings"
+                        ? "Find a line, understand its moves, and explore what comes next."
+                        : "Pick up where you left off, or revisit what you learned."}
               </p>
             </div>
             <button
-              hidden={view === "openings"}
+              hidden={view === "openings" || view === "playground"}
               className="button primary heading-action"
               onClick={() => {
                 setNotice("");
@@ -1177,6 +1187,8 @@ export default function App() {
               setQuery={setOpeningQuery}
               explore={exploreOpening}
             />
+          ) : view === "playground" ? (
+            <PlaygroundPage />
           ) : view === "library" ? (
             <div className="library">
               <div className="library-toolbar">
