@@ -84,7 +84,7 @@ The app downloads the **Stockfish 19.0.1 lite single-threaded** JavaScript/WASM 
 - Stockfish is GPL v3; the download script includes its license in `public/engine/COPYING`, linked in the app.
 - React, react-chessboard, idb, Vite, and Lucide use permissive licenses; chess.js uses BSD-2-Clause. Their package license files accompany installations.
 
-The repository is private. An app-wide distribution license has not been selected.
+An app-wide distribution license has not been selected. Stockfish remains available under GPL v3, and the opening-name dataset remains available under CC0-1.0 as described above.
 
 ## Live variation exploration
 

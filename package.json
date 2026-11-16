@@ -10,7 +10,7 @@
     "engine:download": "node scripts/download-engine.mjs",
     "openings:download": "node scripts/download-openings.mjs",
     "predev": "node scripts/download-openings.mjs",
-    "prebuild": "node scripts/download-openings.mjs"
+    "prebuild": "node scripts/download-engine.mjs && node scripts/download-openings.mjs"
   },
   "dependencies": {
     "react": "19.1.0",
